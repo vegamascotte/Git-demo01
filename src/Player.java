@@ -6,12 +6,15 @@ import java.util.Random;
 
 public class Player {
 	private String name;
+	private Dice d;
 	private int score;
 	private int goal;
+	private boolean inGame = true;
 	
 	public Player()
 	{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		d = new Dice();
 		
 		try {
 			System.out.printf("I can haz name?\n");
@@ -58,11 +61,35 @@ public class Player {
 			return false;
 	}
 	
-	public boolean wonGame()
+	public int dist()
 	{
-		if (score == goal)
-			return true;
+		return goal - score;
+	}
+	
+	public void takeTurn()
+	{
+		if (finishedGame() || !inGame)
+			return;
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		System.out.printf("player: %s\nScore: %d\ntarget: %d\n", name, score, goal);
+		System.out.printf("%s, Do you want to throw the dice?(YES/no)\n", name);
+		String ans = "";
+		try {
+			ans = in.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		if (ans.compareTo("no") == 0)
+			inGame = false;
 		else
-			return false;
+		{
+			int diceRoll = d.throwDice();
+			score += diceRoll;
+			System.out.printf("Dice: %d\n", diceRoll);
+			if (score > goal)
+				System.out.printf("You're out of the game!\n");
+		}
 	}
 }
