@@ -23,6 +23,7 @@ public class Game {
 	
 	public Game(int players)
 	{
+		System.err.println("BUG!");
 		this.players = new ArrayList<Player>();
 		for (int i = 0; i < players; i++)
 		{
