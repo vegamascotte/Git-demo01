@@ -19,6 +19,7 @@ public class Game {
 			System.err.printf("Couldn't parse arg[1]\n");
 			new Game(4);	
 		}
+		System.exit(0);
 	}
 	
 	public Game(int players)
@@ -47,11 +48,14 @@ public class Game {
 			}
 			catch (Exception e)
 			{
-				winner = p;
+				if (p.dist() >= 0)
+					winner = p;
 			}
 		}
-		System.out.printf("Player %s has won with a deviation of %d\n", winner.getName(), winner.dist());
-		
+		if (winner != null)
+			System.out.printf("Player %s has won with a deviation of %d\n", winner.getName(), winner.dist());
+		else
+			System.out.printf("Nobody has won!\n");
 	}
 	
 	public Game()
